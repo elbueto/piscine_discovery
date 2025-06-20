@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>CV - Nolhan & Léna</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* RESET */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #0e1218;
+      color: #e1e6ef;
+      min-height: 100vh;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: #141a26dd;
+      backdrop-filter: saturate(180%) blur(15px);
+      display: flex;
+      justify-content: center;
+      padding: 1.2rem 0;
+      z-index: 9999;
+      box-shadow: 0 0 12px #0ef;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      user-select: none;
+      transition: background 0.3s ease;
+    }
+    nav a {
+      color: #6ef1ff;
+      margin: 0 2rem;
+      text-decoration: none;
+      font-size: 0.95rem;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.3s ease;
+    }
+    nav a:hover,
+    nav a.active {
+      color: #00fff7;
+    }
+    nav a.active::after,
+    nav a:hover::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 3px;
+      background: #00fff7;
+      bottom: 0;
+      left: 0;
+      border-radius: 2px;
+      animation: slideIn 0.3s forwards;
+    }
+    @keyframes slideIn {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    /* SECTION BASE */
+    section {
+      max-width: 720px;
+      margin: 130px auto 70px;
+      background: #171f31;
+      border-radius: 20px;
+      padding: 50px 40px 50px;
+      box-shadow: 0 0 40px #00fff7aa;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* HERO / PRESENTATION */
+    #presentation, #presentation2 {
+      text-align: center;
+      background: linear-gradient(135deg, #0ff 30%, #003945);
+      color: #051f25;
+      box-shadow: 0 0 70px #00fff7dd;
+    }
+    .photo {
+      width: 180px;
+      height: 180px;
+      margin: 0 auto 30px;
+      border-radius: 50%;
+      background: no-repeat center/cover;
+      border: 6px solid #00fff7;
+      box-shadow: 0 0 30px #00fff7cc;
+      animation: pulseGlow 2.5s ease-in-out infinite alternate;
+    }
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 30px #00fff7cc; }
+      100% { box-shadow: 0 0 50px #00fff7ff; }
+    }
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+      color: #ffffff;
+      text-shadow: 0 0 10px #00fff7cc;
+    }
+    h4 {
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin-bottom: 25px;
+      font-style: italic;
+      color: #02848e;
+    }
+    #presentation p, #presentation2 p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      max-width: 520px;
+      margin: 0 auto;
+      color: #d9faffdd;
+    }
+
+    /* EXPERIENCES */
+    #experiences h2, #contact h2, #experiences2 h2, #contact2 h2 {
+      text-align: center;
+      font-weight: 800;
+      font-size: 2.4rem;
+      color: #00fff7;
+      margin-bottom: 40px;
+      text-shadow: 0 0 20px #00fff7bb;
+      letter-spacing: 0.1em;
+    }
+    .card {
+      background: #0b1720;
+      border-radius: 14px;
+      padding: 25px 30px;
+      margin-bottom: 28px;
+      box-shadow: 0 0 12px #00fff7bb;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 0 30px #00fff7ff;
+    }
+    .card h5 {
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      color: #4ee9f9;
+      text-shadow: 0 0 6px #4ee9f9aa;
+    }
+    .card p {
+      font-size: 1rem;
+      color: #a0e9f9cc;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    /* CONTACT */
+    #contact ul, #contact2 ul {
+      list-style: none;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 0;
+    }
+    #contact li, #contact2 li {
+      background: #0b1720;
+      border-radius: 14px;
+      padding: 18px 25px;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      box-shadow: 0 0 12px #00fff7bb;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+      color: #94e8f9;
+    }
+    #contact li:hover, #contact2 li:hover {
+      background: #00fff7ee;
+      color: #031a20;
+      box-shadow: 0 0 40px #00fff7ff;
+    }
+    #contact li a, #contact2 li a {
+      color: inherit;
+      font-weight: 700;
+      word-break: break-word;
+      transition: color 0.3s ease;
+    }
+    #contact li a:hover, #contact2 li a:hover {
+      color: #031a20;
+      text-decoration: underline;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 30px 10px;
+      font-size: 0.9rem;
+      color: #00fff7cc;
+      letter-spacing: 0.06em;
+      user-select: none;
+      text-shadow: 0 0 10px #00fff7aa;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    footer span {
+      color: #00fff7;
+      font-size: 1.2rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 550px) {
+      nav a {
+        margin: 0 1rem;
+        font-size: 0.85rem;
+      }
+      section {
+        margin: 110px 20px 60px;
+        padding: 35px 25px;
+      }
+      h1 {
+        font-size: 2.4rem;
+      }
+      h4 {
+        font-size: 1.1rem;
+      }
+      .card h5 {
+        font-size: 1.15rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#presentation" class="active">Nolhan</a>
+    <a href="#presentation2">Léna</a>
+  </nav>
+
+  <!-- CV Nolhan -->
+  <section id="presentation" tabindex="0">
+    <div class="photo" style="background-image: url('https://i.pravatar.cc/180?img=12');" aria-label="Photo de Nolhan HELFENBEIN"></div>
+    <h1>Nolhan HELFENBEIN</h1>
+    <h4>Lycéen en seconde générale</h4>
+    <p>
+      16 ans, étudiant au lycée Les Eucalyptus à Nice.<br />
+      Je cherche un job d’été pour financer mon permis et vivre ma première expérience professionnelle.<br />
+      Sérieux, ponctuel, autonome et à l’aise en équipe.
+    </p>
+  </section>
+
+  <section id="experiences" tabindex="0">
+    <h2>Formation & Expérience</h2>
+    <div class="card">
+      <h5>Lycée Les Eucalyptus, Nice</h5>
+      <p>Depuis 2024 — Enseignement secondaire général, option sciences de laboratoire</p>
+    </div>
+    <div class="card">
+      <h5>Collège René Cassin, Tourrette-Levens</h5>
+      <p>2019 - 2023 — Brevet du collège mention très bien</p>
+    </div>
+    <div class="card">
+      <h5>Tennis en club</h5>
+      <p>Depuis 2016 — Club Tennis Aspremont (cours collectifs)</p>
+    </div>
+    <div class="card">
+      <h5>Tennis en horaires aménagés</h5>
+      <p>2022 - 2023 — Classe de 3e sport avec Dynamic'Sport</p>
+    </div>
+  </section>
+
+  <section id="contact" tabindex="0">
+    <h2>Contact</h2>
+    <ul>
+      <li>📧 <a href="mailto:nolhanhelf@gmail.com">nolhanhelf@gmail.com</a></li>
+      <li>📞 07 66 83 64 43</li>
+      <li>📍 346 B Chemin du Frogier Supérieur, 06690 Tourrette-Levens</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; Nolhan HELFENBEIN - CV réalisé avec <span>❤️</span> en HTML/CSS
+  </footer>
+
+  <!-- CV Léna -->
+  <section id="presentation2" tabindex="0">
+    <div class="photo" style="background-image: url('https://i.pravatar.cc/180?img=47');" aria-label="Photo de Léna DURAND"></div>
+    <h1>Léna DURAND</h1>
+    <h4>Lycéenne en première STMG</h4>
+    <p>
+      17 ans, étudiante au lycée Masséna à Nice.<br />
+      Je souhaite acquérir une première expérience professionnelle dans la vente ou l'accueil client.<br />
+      Dynamique, souriante, motivée et rigoureuse.
+    </p>
+  </section>
+
+  <section id="experiences2" tabindex="0">
+    <h2>Formation & Expérience</h2>
+    <div class="card">
+      <h5>Lycée Masséna, Nice</h5>
+      <p>Depuis 2023 — Filière STMG (sciences et technologies du management et de la gestion)</p>
+    </div>
+    <div class="card">
+      <h5>Collège Roland Garros, Nice</h5>
+      <p>2018 - 2022 — Brevet mention bien</p>
+    </div>
+    <div class="card">
+      <h5>Stage en boutique</h5>
+      <p>Juin 2024 — Stage de 3e chez Promod, accueil client et mise en rayon</p>
+    </div>
+    <div class="card">
+      <h5>Danse Moderne</h5>
+      <p>Depuis 2014 — Cours hebdomadaires au Centre Chorégraphique de Nice</p>
+    </div>
+  </section>
+
+  <section id="contact2" tabindex="0">
+    <h2>Contact</h2>
+    <ul>
+      <li>📧 <a href="mailto:lenadurand@example.com">lenadurand@example.com</a></li>
+      <li>📞 06 22 45 88 12</li>
+      <li>📍 12 Rue des Lilas, 06000 Nice</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; Léna DURAND - CV réalisé avec <span>❤️</span> en HTML/CSS
+  </footer>
+
+  <script>
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('nav a');
+
+    function revealOnScroll() {
+      const triggerBottom = window.innerHeight * 0.85;
+      sections.forEach(section => {
+        const top = section.getBoundingClientRect().top;
+        if (top < triggerBottom) {
+          section.classList.add('visible');
+        }
+      });
+    }
+
+    function updateActiveNav() {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        if (pageYOffset >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').substring(1) === current) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', () => {
+      revealOnScroll();
+      updateActiveNav();
+    });
+
+    window.addEventListener('load', () => {
+      revealOnScroll();
+      updateActiveNav();
+    });
+  </script>
+</body>
+</html>

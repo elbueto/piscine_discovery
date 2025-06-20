@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gestionnaire de tâches stylé</title>
+  <style>
+    /* Reset & basics */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      background: #121212;
+      color: #f0f0f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 6px #00bfa5aa;
+    }
+
+    #new_task_btn {
+      background: linear-gradient(135deg, #00bfa5, #008e76);
+      border: none;
+      color: white;
+      padding: 14px 28px;
+      font-size: 18px;
+      font-weight: 600;
+      border-radius: 50px;
+      box-shadow: 0 6px 12px rgba(0, 191, 165, 0.5);
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      user-select: none;
+      margin-bottom: 30px;
+    }
+    #new_task_btn:hover {
+      box-shadow: 0 8px 18px rgba(0, 191, 165, 0.8);
+      transform: translateY(-3px);
+    }
+    #new_task_btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 8px rgba(0, 191, 165, 0.5);
+    }
+
+    #ft_list {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Tâches */
+    #ft_list div {
+      background: #222;
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.7);
+      font-size: 18px;
+      font-weight: 500;
+      user-select: none;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: fadeInUp 0.5s forwards;
+      transition: background-color 0.3s ease;
+      position: relative;
+    }
+
+    #ft_list div:hover {
+      background-color: #00bfa5;
+      color: #121212;
+      box-shadow: 0 6px 20px #00bfa5cc;
+    }
+
+    /* Animation apparition */
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Animation disparition */
+    @keyframes fadeOutDown {
+      to {
+        opacity: 0;
+        transform: translateY(20px);
+        height: 0;
+        margin: 0;
+        padding: 0 24px;
+      }
+    }
+
+    /* Scrollbar custom (optionnel) */
+    #ft_list {
+      max-height: 60vh;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #00bfa5 transparent;
+    }
+    #ft_list::-webkit-scrollbar {
+      width: 8px;
+    }
+    #ft_list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    #ft_list::-webkit-scrollbar-thumb {
+      background-color: #00bfa5;
+      border-radius: 4px;
+    }
+
+    /* Prompt personnalisé au clic ? Pas possible nativement, donc on garde prompt */
+  </style>
+</head>
+<body>
+  <h1>Ma ToDo List Stylée</h1>
+  <button id="new_task_btn">New</button>
+  <div id="ft_list"></div>
+
+  <script>
+    // Cookies helpers
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + days*24*60*60*1000);
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
+    }
+    function getCookie(name) {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(';');
+      for(let i=0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+      }
+      return null;
+    }
+
+    // Save list dans cookie
+    function saveList() {
+      const tasks = [];
+      const ftList = document.getElementById('ft_list');
+      for (let i = 0; i < ftList.children.length; i++) {
+        tasks.push(ftList.children[i].textContent);
+      }
+      setCookie('todoList', JSON.stringify(tasks), 7);
+    }
+
+    // Load liste
+    function loadList() {
+      const saved = getCookie('todoList');
+      if (saved) {
+        const tasks = JSON.parse(saved);
+        tasks.forEach(task => createTask(task, false));
+      }
+    }
+
+    // Création d’une tâche avec animation d’apparition
+    function createTask(text, save = true) {
+      const ftList = document.getElementById('ft_list');
+      const taskDiv = document.createElement('div');
+      taskDiv.textContent = text;
+
+      // Supprimer avec animation de disparition
+      taskDiv.addEventListener('click', function() {
+        if (confirm("Voulez-vous supprimer cette tâche ?")) {
+          taskDiv.style.animation = 'fadeOutDown 0.4s forwards';
+          taskDiv.style.pointerEvents = 'none';
+          // Suppression après animation
+          setTimeout(() => {
+            if (ftList.contains(taskDiv)) {
+              ftList.removeChild(taskDiv);
+              saveList();
+            }
+          }, 400);
+        }
+      });
+
+      // Insère en haut
+      if (ftList.firstChild) {
+        ftList.insertBefore(taskDiv, ftList.firstChild);
+      } else {
+        ftList.appendChild(taskDiv);
+      }
+
+      if (save) saveList();
+    }
+
+    // Init page
+    window.onload = function() {
+      loadList();
+      document.getElementById('new_task_btn').addEventListener('click', () => {
+        const task = prompt("Entrez votre nouvelle tâche:");
+        if (task && task.trim() !== "") {
+          createTask(task.trim());
+        }
+      });
+    }
+  </script>
+</body>
+</html>

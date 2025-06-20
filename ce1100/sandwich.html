@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu des Roulants</title>
+  <style>
+
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-child {
+    display: none;
+    min-width: 200px;
+}
+.dropdown-child a {
+    color: rgb(0, 0, 0);
+    padding: 20px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown:hover .dropdown-child {
+    display: block;
+}
+.mainmenubtn {
+           width: 300px;
+      background: linear-gradient(to bottom, #f5deb3, #deb887);
+      padding: 20px;
+      text-align: center;
+      font-weight: bold;
+      border: none
+}
+    .bread-bottom {
+      background: linear-gradient(to bottom, #f5deb3, #deb887);
+      padding: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .cheese {
+      background: #f1c02c;
+      color: #4a3f00;
+    }
+
+    .lettuce {
+      background: #7ee226;
+      color: #2e5c0b;
+    }
+
+    .tomato {
+      background: #ce2929;
+      color: #661111;
+    }
+
+    .ham {
+      background: #df8b8b;
+      color: #5e1b1b;
+    }
+
+    .egg {
+      background: #e6d14d;
+      color: #4d4d00;
+    }
+
+</style>
+</head>
+<div class="dropdown">
+  <button class="mainmenubtn">Pain brioché SNCF</button>
+  <div class="dropdown-child">
+    <a class="ingredient cheese">Tranche de fromage fondu</a>
+    <a class="ingredient ham">Jambon industriel</a>
+    <a class="ingredient lettuce">Feuille de salade fatiguée</a>
+    <a class="ingredient tomato">Rondelle de tomate glissante</a>
+    <a class="ingredient egg">Miettes d'œuf dur</a>
+    <a class="bread-bottom">Pain du dessous</a>
+  </div>
+</div>

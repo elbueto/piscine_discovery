@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>It’s over 9000</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+    }
+
+    input, select, button {
+      margin: 10px;
+      padding: 10px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>It’s over 9000 - Calculator</h2>
+
+  <input id="left" type="text" placeholder="Gauche (entier ≥ 0)">
+  <select id="operator">
+    <option value="+">+</option>
+    <option value="-">-</option>
+    <option value="*">*</option>
+    <option value="/">/</option>
+    <option value="%">%</option>
+  </select>
+  <input id="right" type="text" placeholder="Droite (entier ≥ 0)">
+  <input type="submit" value="Try me!" onclick="calculate()">
+
+  <script>
+    function isPositiveInteger(value) {
+      return /^[0-9]+$/.test(value);
+    }
+
+    function calculate() {
+      const left = document.getElementById('left').value;
+      const right = document.getElementById('right').value;
+      const op = document.getElementById('operator').value;
+
+      if (!isPositiveInteger(left) || !isPositiveInteger(right)) {
+        alert('Error :(');
+        console.log('Error :(');
+        return;
+      }
+
+      const a = parseInt(left);
+      const b = parseInt(right);
+
+      if ((op === '/' || op === '%') && b === 0) {
+        alert("It’s over 9000!");
+        console.log("It’s over 9000!");
+        return;
+      }
+
+      let result;
+      switch(op) {
+        case '+': result = a + b; break;
+        case '-': result = a - b; break;
+        case '*': result = a * b; break;
+        case '/': result = a / b; break;
+        case '%': result = a % b; break;
+      }
+
+      alert(`Résultat : ${result}`);
+      console.log(`Résultat : ${result}`);
+    }
+
+    // Message toutes les 30 secondes
+    setInterval(() => {
+      alert('Please, use me...');
+    }, 30000);
+  </script>
+
+</body>
+</html>
+
